@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>智能会议记录</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 40px;
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+    form {
+      text-align: center;
+    }
+    input[type="file"] {
+      padding: 10px;
+      border: none;
+      background-color: #fff;
+    }
+    input[type="submit"] {
+      padding: 10px 20px;
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      margin-top: 20px;
+      padding: 10px;
+      border: none;
+      background-color: #fff;
+    }
+    .fade-in {
+      animation: fade-in 1s ease-in;
+    }
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1 class="fade-in">智能会议记录</h1>
+  
+  <form action="/extract" method="post" enctype="multipart/form-data">
+    <input type="file" name="mp4File" accept=".mp4" class="fade-in">
+    <br><br>
+    <input type="submit" value="提取字幕" class="fade-in">
+  </form>
+  
+  <hr class="fade-in">
+  
+  <h2 class="fade-in">字幕输出</h2>
+  <textarea id="subtitleOutput" rows="10" cols="50" readonly class="fade-in"></textarea>
+  
+  <script>
+    function showSubtitles(subtitles) {
+      var subtitleOutput = document.getElementById('subtitleOutput');
+      subtitleOutput.value = subtitles;
+    }
+    
+    var fadeElements = document.getElementsByClassName('fade-in');
+    for (var i = 0; i < fadeElements.length; i++) {
+      fadeElements[i].style.opacity = '0';
+    }
+    
+    setTimeout(function() {
+      for (var i = 0; i < fadeElements.length; i++) {
+        fadeElements[i].style.opacity = '1';
+      }
+    }, 500);
+  </script>
+</body>
+</html>
