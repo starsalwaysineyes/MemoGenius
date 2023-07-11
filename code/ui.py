@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import filedialog
 from PIL import Image, ImageDraw, ImageTk
 import random
 import ctypes
@@ -13,6 +14,13 @@ def upload_button_clicked():
     # 获取文本框中的内容并赋值给变量
     user_input = input_entry.get()
     print("用户输入的内容：", user_input)
+
+def preview_button_clicked():
+    file_path = filedialog.askopenfilename()
+    print("选择的文件路径：", file_path)
+    
+    # 将文件路径填充到输出框中
+    input_entry.insert(tk.END, file_path)
 
 # 创建主窗口
 window = tk.Tk()
@@ -115,15 +123,17 @@ def change_background_color():
 # 初始时立即调用一次，之后每隔5秒改变一次背景颜色
 change_background_color() 
 
-# 创建输入框和按钮，并绑定点击事件
-input_entry = tk.Entry(window, font=("Helvetica", 18), width=20)
+# 创建输入框、按钮，并绑定点击事件
+input_entry = tk.Entry(window, font=("Helvetica", 18), width=30)
 input_entry.place(relx=0.5, rely=0.7, anchor="center")  # 调整文本框的位置
 
 record_button = tk.Button(window, text="录制", font=("Helvetica", 18), command=record_button_clicked, bg="lightblue", fg="white")
 upload_button = tk.Button(window, text="上传", font=("Helvetica", 18), command=upload_button_clicked, bg="lightgreen", fg="white")
+preview_button = tk.Button(window, text="预览", font=("Helvetica", 18), command=preview_button_clicked, bg="orange", fg="white")
 
 record_button.place(relx=0.3, rely=0.8, anchor="center")
-upload_button.place(relx=0.7, rely=0.8, anchor="center")
+upload_button.place(relx=0.5, rely=0.8, anchor="center")
+preview_button.place(relx=0.7, rely=0.8, anchor="center")
 
 # 进入主循环
 window.mainloop()
