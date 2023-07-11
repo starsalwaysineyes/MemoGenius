@@ -16,10 +16,6 @@ def upload_button_clicked():
 window = tk.Tk()
 window.geometry("800x600")
 
-# 打开logo文件并调整大小
-logo_image = Image.open("C:\\Users\\ASUS\\Desktop\\background.jpg")
-logo_image = logo_image.resize((100, 100), Image.ANTIALIAS)
-
 # 创建Canvas组件
 canvas = tk.Canvas(window, width=800, height=600)
 canvas.pack()
@@ -110,10 +106,6 @@ def change_background_color():
 
 # 初始时立即调用一次，之后每隔5秒改变一次背景颜色
 change_background_color() 
-
-# 将logo粘贴到背景图像的上方
-logo = ImageTk.PhotoImage(logo_image)
-canvas.create_image(0, 0, anchor="nw", image=logo)
 
 # 创建输入框和按钮，并绑定点击事件
 input_entry = tk.Entry(window, font=("Helvetica", 18), width=20)
