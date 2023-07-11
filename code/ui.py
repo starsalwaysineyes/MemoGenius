@@ -1,6 +1,8 @@
 import tkinter as tk
 from PIL import Image, ImageDraw, ImageTk
 import random
+import ctypes
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("myappid")
 
 def record_button_clicked():
     print("录制按钮被点击了")
@@ -14,7 +16,13 @@ def upload_button_clicked():
 
 # 创建主窗口
 window = tk.Tk()
+icon = ImageTk.PhotoImage(file="./background.jpg")
+window.iconphoto(True, icon)
+window.iconbitmap("./background.ico") 
 window.geometry("800x600")
+
+window.title("MemoGenius")
+
 
 # 创建Canvas组件
 canvas = tk.Canvas(window, width=800, height=600)
@@ -46,7 +54,7 @@ art_text = tk.Label(window, text="会", font=art_font, fg="white", bg="black")
 art_text.place(relx=0.45, rely=0.4, anchor="center")
 
 yi_font = ("Helvetica", 48, "bold")
-yi_text = tk.Label(window, text="议", font=yi_font, fg="white", bg="black")
+yi_text = tk.Label(window, text="忆", font=yi_font, fg="white", bg="black")
 yi_text.place(relx=0.55, rely=0.4, anchor="center")
 
 def change_text_color():
