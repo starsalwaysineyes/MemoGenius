@@ -16,38 +16,104 @@ def upload_button_clicked():
 window = tk.Tk()
 window.geometry("800x600")
 
+# 打开logo文件并调整大小
+logo_image = Image.open("C:\\Users\\ASUS\\Desktop\\background.jpg")
+logo_image = logo_image.resize((100, 100), Image.ANTIALIAS)
+
 # 创建Canvas组件
 canvas = tk.Canvas(window, width=800, height=600)
 canvas.pack()
 
-# 生成背景花纹
-image = Image.new("RGB", (800, 600), "white")
+# 生成星空背景图像
+image = Image.new("RGB", (800, 600), "black")
 draw = ImageDraw.Draw(image)
 
-for _ in range(5000):
-    x1 = random.randint(0, 800)
-    y1 = random.randint(0, 600)
+stars = []
+
+for _ in range(500):
+    x = random.randint(0, 800)
+    y = random.randint(0, 600)
+    size = random.randint(1, 3)
     r = random.randint(0, 255)
     g = random.randint(0, 255)
     b = random.randint(0, 255)
-    draw.point((x1, y1), fill=(r, g, b))
+    star = {"x": x, "y": y, "size": size, "color": (r, g, b)}
+    stars.append(star)
+    draw.rectangle([x, y, x+size, y+size], fill=(r, g, b))
 
-background_pattern = ImageTk.PhotoImage(image)
-canvas.create_image(0, 0, anchor="nw", image=background_pattern)
+background_stars = ImageTk.PhotoImage(image)
+canvas.create_image(0, 0, anchor="nw", image=background_stars)
 
-# 添加"会忆"的艺术字
-art_text = tk.Label(window, text="会忆", font=("Helvetica", 36), fg="white")
-art_text.place(relx=0.5, rely=0.4, anchor="center")
+# 修改"会议"的字体样式和颜色
+art_font = ("Helvetica", 48, "bold")
+art_text = tk.Label(window, text="会", font=art_font, fg="white", bg="black")
+art_text.place(relx=0.45, rely=0.4, anchor="center")
+
+yi_font = ("Helvetica", 48, "bold")
+yi_text = tk.Label(window, text="议", font=yi_font, fg="white", bg="black")
+yi_text.place(relx=0.55, rely=0.4, anchor="center")
 
 def change_text_color():
-    r = random.randint(0, 255)
-    g = random.randint(0, 255)
-    b = random.randint(0, 255)
+    r = random.randint(200, 255)
+    g = random.randint(200, 255)
+    b = random.randint(200, 255)
     art_text.configure(fg=f'#{r:02x}{g:02x}{b:02x}')
+    yi_text.configure(fg=f'#{r:02x}{g:02x}{b:02x}')
     window.after(1000, change_text_color)
 
 # 初始时立即调用一次，之后每隔1秒改变一次文本颜色
 change_text_color() 
+
+def animate_stars():
+    for star in stars:
+        x = star["x"]
+        y = star["y"]
+        size = star["size"]
+        r, g, b = star["color"]
+
+        # 随机改变星星的颜色
+        if random.random() < 0.05:
+            r = random.randint(0, 255)
+            g = random.randint(0, 255)
+            b = random.randint(0, 255)
+            star["color"] = (r, g, b)
+        
+        # 随机改变星星的位置
+        if random.random() < 0.02:
+            x += random.randint(-2, 2)
+            y += random.randint(-2, 2)
+            star["x"] = x
+            star["y"] = y
+        
+        # 限制星星的位置在窗口范围内
+        x = max(0, min(x, 800-size))
+        y = max(0, min(y, 600-size))
+
+        # 绘制星星
+        draw.rectangle([x, y, x+size, y+size], fill=(r, g, b))
+    
+    background_stars = ImageTk.PhotoImage(image)
+    canvas.create_image(0, 0, anchor="nw", image=background_stars)
+    
+    window.after(100, animate_stars)
+
+# 初始时立即调用一次，之后每隔0.1秒更新一次星星的位置和颜色
+animate_stars()
+
+def change_background_color():
+    r = random.randint(0, 255)
+    g = random.randint(0, 255)
+    b = random.randint(0, 255)
+    
+    canvas.configure(bg=f'#{r:02x}{g:02x}{b:02x}')
+    window.after(5000, change_background_color)
+
+# 初始时立即调用一次，之后每隔5秒改变一次背景颜色
+change_background_color() 
+
+# 将logo粘贴到背景图像的上方
+logo = ImageTk.PhotoImage(logo_image)
+canvas.create_image(0, 0, anchor="nw", image=logo)
 
 # 创建输入框和按钮，并绑定点击事件
 input_entry = tk.Entry(window, font=("Helvetica", 18), width=20)
