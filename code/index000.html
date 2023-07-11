@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>智能会议记录</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+/*        html, body{
+            height:100%;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }*/
+        
+        .center-text {
+            text-align: center;
+        }
+    </style>
+
+    <script>
+        function handleClick() {
+            var message = document.getElementById("message");
+            message.innerHTML = "按钮被点击了！";
+        }
+    </script>    
+
+</head>
+
+<body>
+
+    <h1 class="center-text">智能会议记录</h1>
+
+    <h2 class="center-text">输入文件路径</h2>
+
+    <form>
+        <label for="message">请输入文件路径：</label>
+        <input type="text" id="path" name="path">
+        <br>
+        <input type="submit" value="提交">
+    </form>
+
+    <p id="message">点击按钮以触发交互。</p>
+
+    <button onclick="handleClick()">确定</button>
+</body>
+</html>
