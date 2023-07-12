@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="./pics/ico.png" type="image/png">
+    <link rel="icon" href="/pics/ico.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
@@ -11,15 +11,14 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #ffffff;
+            background-color: #FDFFFE;
         }
 
         .headline {
-            height: 30px;
-            background-color: #FAFAFA;
+            height: 25px;
+            background-color: #dadada;
             border: none;
             border-radius: 10px;
-            margin: 5px;
         }
 
         .upper-half {
@@ -28,8 +27,8 @@
         }
 
         .lower-half {
-            height: 65vh; /* 设置下半页的高度为视口高度的 65% */
-            background: linear-gradient(to bottom, #FAFAFA, #B2DFDB);
+            height: 66vh; /* 设置下半页的高度为视口高度的 65% */
+            background: linear-gradient(to bottom, #FDFFFE, #B2DFDB);
             border: none;
             border-radius: 10px;
         }
@@ -40,7 +39,7 @@
         }
 
             .container img {
-                margin-right: 430px; /* 可根据需要调整图像与标题之间的间距 */
+                margin-right: 52vh; /* 可根据需要调整图像与标题之间的间距 */
             }
 
         h1 {
@@ -50,9 +49,12 @@
 
         h2 {
             font-size: 30px;
-            font-family: Arial, sans-serif;
             text-align: center;
             font-family: 'ZCOOL KuaiLe', sans-serif;
+        }
+
+        h3{
+            font-size:5px;
         }
 
         form {
@@ -61,8 +63,7 @@
 
         textarea {
             width: 95%;
-            height: 300px;
-            margin-top: 10px;
+            margin-top: 15px;
             margin-left: 30px;
             border: 2px solid #ccc;
             border-radius: 5px;
@@ -132,8 +133,9 @@
     </style>
 </head>
 <body>
-    <div class="headline">
+    <div class="headline" style="display: flex; justify-content: space-between;">
         <h3 class="fade-in">@MemoGenius团队提供</h3>
+        <h3 class="fade-in">powered by openai</h3>
     </div>
 
     <div class="upper-half">
@@ -173,9 +175,10 @@
             };
             //TextOutput.style.height = "auto";
             //TextOutput.style.height = TextOutput.scrollHeight + "px";
-            ShowText(TextOutput.value);
+/*            ShowText(TextOutput.value);*/
             xhr.open("GET", "./test/result.txt");
             xhr.send();
+            ShowText(TextOutput.value);
         };
 
         function ShowText(text) {
