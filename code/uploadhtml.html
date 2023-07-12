@@ -3,21 +3,48 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="http://mg.dawnaurora.top/pics/ico.png" type="image/png">
     <title>智能会议记录</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f6f6f6;
-            margin: 40px;
+            background-color: #ffffff;
+            margin: 5px;
         }
 
-        h1 {
-            color: #333;
-            text-align: center;
+        .headline {
+            height: 30px;
+            background-color: #FAFAFA;
+            border: none;
+            border-radius: 10px;
+            margin: 5px;
         }
+
+        .upper-half {
+            height: 25vh; /* 设置上半页的高度为视口高度的 50% */
+            background-color: #FDFFFE; /* 设置上半页的背景颜色 */
+        }
+
+        .lower-half {
+            height: 65vh; /* 设置下半页的高度为视口高度的 50% */
+            background: linear-gradient(to bottom, #FAFAFA, #B2DFDB);
+            border: none;
+            border-radius: 10px;
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+        }
+
+            .container img {
+                margin-right: 470px; /* 可根据需要调整图像与标题之间的间距 */
+            }
+
 
         h2 {
             color: #333;
+            font-family: Arial, sans-serif;
             text-align: center;
         }
 
@@ -26,12 +53,13 @@
         }
 
         textarea {
-            width: 100%;
+            width: 95%;
             height: 300px;
             margin-top: 10px;
-            padding: 10px;
-            border: none;
-            background-color: #fff;
+            margin-left: 30px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            background-color: #FDFFFE;
         }
 
         .fade-in {
@@ -94,46 +122,61 @@
     </style>
 </head>
 <body>
-    <h1 class="fade-in">智能会议记录</h1>
-    <br>
-    <form action="/receive.php" method="post" enctype="multipart/form-data" class="upload-form">
-        <input type="hidden" name="key" placeholder="参数1">
-        <input type="hidden" name="key2" placeholder="参数2">
-        <input type="file" name="file">
-        <input type="submit" value="上传文件" class="fade-in">
-    </form>
-    <h2 class="fade-in">字幕输出</h2>
-    <div class="center">
-        <button onclick="handleClick()" class="custom-button fade-in">生成字幕以及总结</button>
+    <div class="headline">
+        <h3 class="fade-in">@MemoGenius团队提供</h3>
     </div>
-    <textarea id="subtitleOutput" rows="20" cols="50" readonly class="fade-in"></textarea>
+
+    <div class="upper-half">
+        <div class="container">
+            <img src="http://mg.dawnaurora.top/pics/ico.jpg" alt="icon" width="150" height="150" class="fade-in">
+            <h1 class="fade-in">智能会议记录</h1>
+        </div>
+        <form action="/receive.php" method="post" enctype="multipart/form-data" class="upload-form">
+            <input type="hidden" name="key" placeholder="参数1">
+            <input type="hidden" name="key2" placeholder="参数2">
+            <input type="file" name="file" class="fade-in">
+            <input type="submit" value="上传文件" class="fade-in">
+        </form>
+    </div>
+
+    <div class="lower-half">
+        <br>
+        <h2 class="fade-in">总结</h2>
+
+        <div class="center">
+            <button onclick="handleClick()" class="custom-button fade-in">生成字幕以及总结</button>
+        </div>
+        <textarea id="subtitleOutput" rows="20" cols="50" readonly class="fade-in"></textarea>
+    </div>
+
     <script>
-    function handleClick() {
-/*      var xhr = new XMLHttpRequest();
-      xhr.open('GET',url,true);
-      xhr.onreadystatechange = function() {
-          if (xhr.readyState === 4 && xhr.status === 200) {
-              var response = xhr.responseText;
-              console.log(response);*/
-        $.ajax({
-            url: 'path/to/text/file.txt',
-            dataType: 'text',
-            success: function(data) {
-                $('#subtitleOutput').val(data);
+
+        function handleClick() {
+            /*      var xhr = new XMLHttpRequest();
+                  xhr.open('GET',url,true);
+                  xhr.onreadystatechange = function() {
+                      if (xhr.readyState === 4 && xhr.status === 200) {
+                          var response = xhr.responseText;
+                          console.log(response);*/
+            $.ajax({
+                url: 'path/to/text/file.txt',
+                dataType: 'text',
+                success: function (data) {
+                    $('#subtitleOutput').val(data);
+                }
+            });
+        }
+
+        var fadeElements = document.getElementsByClassName('fade-in');
+        for (var i = 0; i < fadeElements.length; i++) {
+            fadeElements[i].style.opacity = '0';
+        }
+
+        setTimeout(function () {
+            for (var i = 0; i < fadeElements.length; i++) {
+                fadeElements[i].style.opacity = '1';
             }
-        });
-    }
-
-    var fadeElements = document.getElementsByClassName('fade-in');
-    for (var i = 0; i < fadeElements.length; i++) {
-      fadeElements[i].style.opacity = '0';
-    }
-
-    setTimeout(function() {
-      for (var i = 0; i < fadeElements.length; i++) {
-        fadeElements[i].style.opacity = '1';
-      }
-    }, 500);
+        }, 500);
 
 
 
