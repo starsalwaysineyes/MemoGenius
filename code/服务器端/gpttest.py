@@ -1,25 +1,15 @@
 import openai
 
-filename=""
-ifile=open("/www/wwwroot/mg.dawnaurora.top/test/input.txt",'r')
-filename=ifile.read()
-ifile.close()
-
-
 openai.api_key ="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"
 #"sk-enx8hSOzHczmdAxWpPHnT3BlbkFJ2vmUYNmWueckHruA1"
 #"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"
 #"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"
+f=open("/www/wwwroot/mg.dawnaurora.top/test/transcribe_result.txt",'r')
+st=f.read()
+f.close()
 
-audio_file= open("/www/wwwroot/mg.dawnaurora.top/uploads/"+filename, "rb")
 
-transcript = openai.Audio.transcribe("whisper-1", audio_file)
-
-#print(transcript['text'])
-with open("/www/wwwroot/mg.dawnaurora.top/test/transcribe_result.txt",'w') as f1:
-    f1.write(transcript['text'])
-    
-cont="会议内容如下："+transcript['text']
+cont="会议内容如下："+st
 
 completion = openai.ChatCompletion.create(
   model="gpt-3.5-turbo-16k-0613",
@@ -35,8 +25,3 @@ s=str(completion.choices[0].message["content"])#.decode("unicode-escape")
 #print(s)
 f.write(s)
 f.close()
-
-
-
-
-
