@@ -43,7 +43,11 @@ def main():
     
     #上传按钮功能
     def upload_button_clicked():
-        
+        print("先别急着上传，那边还没对接好")
+        if(1):
+            #这样写为了让下边的代码也高亮
+            #不然下边会被暗色
+            return
         setAllowed = {".wav", ".mp3", ".mp4"}
         
         # 获取文本框中的内容并赋值给变量
