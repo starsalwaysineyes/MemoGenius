@@ -100,10 +100,10 @@
             transition: all 0.3s ease;
         }
 
-            .upload-form input[type="submit"]:hover {
-                background-color: #4caf50;
-                color: white;
-            }
+        .upload-form input[type="submit"]:hover {
+            background-color: #4caf50;
+            color: white;
+        }
 
         .custom-button {
             border: 2px solid #4caf50;
@@ -115,10 +115,10 @@
             transition: all 0.3s ease;
         }
 
-            .custom-button:hover {
-                background-color: #4caf50;
-                color: white;
-            }
+        .custom-button:hover {
+            background-color: #4caf50;
+            color: white;
+        }
 
         @keyframes fade-in {
             from {
@@ -164,15 +164,20 @@
         const TextOutput = document.getElementById('MyText');
 
         function handleClick() {
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET","./test/file.txt");
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    TextOutput.value = xhr.responseText;
-                }
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET","./test/file.txt");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        TextOutput.value = xhr.responseText;
+                    }
+                };
+                xhr.send();
             };
-            xhr.send();
-
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                const xmlDoc = xhttp.responseXML;
+                const cd = xmlDoc.getElementsByTagName("CD");
+            }
 
         TextOutput.addEventListener('input', function () {
             this.style.height = 'auto';
@@ -189,8 +194,6 @@
                 fadeElements[i].style.opacity = '1';
             }
         }, 500);
-
-
 
     </script>
 </body>
