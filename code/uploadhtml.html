@@ -12,7 +12,6 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #ffffff;
-            margin: 5px;
         }
 
         .headline {
@@ -24,12 +23,12 @@
         }
 
         .upper-half {
-            height: 25vh; /* 设置上半页的高度为视口高度的 50% */
+            height: 25vh; /* 设置上半页的高度为视口高度的 25% */
             background-color: #FDFFFE; /* 设置上半页的背景颜色 */
         }
 
         .lower-half {
-            height: 65vh; /* 设置下半页的高度为视口高度的 50% */
+            height: 65vh; /* 设置下半页的高度为视口高度的 65% */
             background: linear-gradient(to bottom, #FAFAFA, #B2DFDB);
             border: none;
             border-radius: 10px;
@@ -43,6 +42,7 @@
             .container img {
                 margin-right: 430px; /* 可根据需要调整图像与标题之间的间距 */
             }
+
         h1 {
             font-size: 50px;
             font-family: 'ZCOOL KuaiLe', sans-serif;
@@ -67,7 +67,7 @@
             border: 2px solid #ccc;
             border-radius: 5px;
             background-color: #FDFFFE;
-            overflow: hidden;
+            overflow-y: auto;
             resize: none;
             height: auto;
         }
@@ -156,33 +156,24 @@
         <div class="center">
             <button onclick="handleClick()" class="custom-button fade-in">生成字幕以及总结</button>
         </div>
-        <textarea id="MyText" rows="20" cols="50" readonly class="fade-in"></textarea>
+        <textarea id="MyText" rows="20" cols="50" class="fade-in"></textarea>
     </div>
 
     <script>
-
         const TextOutput = document.getElementById('MyText');
 
         function handleClick() {
                 var xhr = new XMLHttpRequest();
-                xhr.open("GET","./test/file.txt");
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         TextOutput.value = xhr.responseText;
                     }
                 };
+                TextOutput.style.height = "auto";
+                TextOutput.style.height = TextOutput.scrollHeight + "px";
+                xhr.open("GET", "./test/file.txt");
                 xhr.send();
             };
-            const xhttp = new XMLHttpRequest();
-            xhttp.onload = function () {
-                const xmlDoc = xhttp.responseXML;
-                const cd = xmlDoc.getElementsByTagName("CD");
-            }
-
-        TextOutput.addEventListener('input', function () {
-            this.style.height = 'auto';
-            this.style.height = this.scrollHeight + 'px';
-        })
 
         var fadeElements = document.getElementsByClassName('fade-in');
         for (var i = 0; i < fadeElements.length; i++) {
