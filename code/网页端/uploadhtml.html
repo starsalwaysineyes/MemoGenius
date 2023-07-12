@@ -100,10 +100,10 @@
             transition: all 0.3s ease;
         }
 
-        .upload-form input[type="submit"]:hover {
-            background-color: #4caf50;
-            color: white;
-        }
+            .upload-form input[type="submit"]:hover {
+                background-color: #4caf50;
+                color: white;
+            }
 
         .custom-button {
             border: 2px solid #4caf50;
@@ -115,10 +115,10 @@
             transition: all 0.3s ease;
         }
 
-        .custom-button:hover {
-            background-color: #4caf50;
-            color: white;
-        }
+            .custom-button:hover {
+                background-color: #4caf50;
+                color: white;
+            }
 
         @keyframes fade-in {
             from {
@@ -162,18 +162,34 @@
     <script>
         const TextOutput = document.getElementById('MyText');
 
+        var xhr = new XMLHttpRequest();
+
         function handleClick() {
-                var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        TextOutput.value = xhr.responseText;
-                    }
-                };
-                TextOutput.style.height = "auto";
-                TextOutput.style.height = TextOutput.scrollHeight + "px";
-                xhr.open("GET", "./test/result.txt");
-                xhr.send();
+            TextOutput = "";
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    TextOutput.value = xhr.responseText;
+                }
             };
+            //TextOutput.style.height = "auto";
+            //TextOutput.style.height = TextOutput.scrollHeight + "px";
+            ShowText(TextOutput.value);
+            xhr.open("GET", "./test/result.txt");
+            xhr.send();
+        };
+
+        function ShowText(text) {
+            var index = 0;
+            var timer = setInterval(function () {
+                textarea.value += text.charAt(index);
+                textarea.style.height = "auto";
+                textarea.style.height = textarea.scrollHeight + "px";
+                index++;
+                if (index >= text.length) {
+                    clearInterval(timer);
+                }
+            }, 50);
+        }
 
         var fadeElements = document.getElementsByClassName('fade-in');
         for (var i = 0; i < fadeElements.length; i++) {
