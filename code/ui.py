@@ -3,6 +3,7 @@ from tkinter import filedialog
 from PIL import Image, ImageDraw, ImageTk
 import random
 import ctypes
+import os
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("myappid")
 
 def record_button_clicked():
@@ -23,10 +24,14 @@ def preview_button_clicked():
     input_entry.insert(tk.END, file_path)
 
 # 创建主窗口
+current_path = os.path.abspath(__file__)
+current_directory = os.path.dirname(current_path)
+jpgpath = current_directory + "\\background.jpg"
+iconpath = current_directory + "\\background.ico"
 window = tk.Tk()
-icon = ImageTk.PhotoImage(file="./background.jpg")
+icon = ImageTk.PhotoImage(file=jpgpath)
 window.iconphoto(True, icon)
-window.iconbitmap("./background.ico") 
+window.iconbitmap(iconpath) 
 window.geometry("800x600")
 
 window.title("MemoGenius")
