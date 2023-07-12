@@ -3,7 +3,10 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="http://mg.dawnaurora.top/pics/ico.png" type="image/png">
+    <link rel="icon" href="./pics/ico.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
     <title>智能会议记录</title>
     <style>
         body {
@@ -38,14 +41,18 @@
         }
 
             .container img {
-                margin-right: 470px; /* 可根据需要调整图像与标题之间的间距 */
+                margin-right: 430px; /* 可根据需要调整图像与标题之间的间距 */
             }
-
+        h1 {
+            font-size: 50px;
+            font-family: 'ZCOOL KuaiLe', sans-serif;
+        }
 
         h2 {
-            color: #333;
+            font-size: 30px;
             font-family: Arial, sans-serif;
             text-align: center;
+            font-family: 'ZCOOL KuaiLe', sans-serif;
         }
 
         form {
@@ -60,6 +67,9 @@
             border: 2px solid #ccc;
             border-radius: 5px;
             background-color: #FDFFFE;
+            overflow: hidden;
+            resize: none;
+            height: auto;
         }
 
         .fade-in {
@@ -128,7 +138,7 @@
 
     <div class="upper-half">
         <div class="container">
-            <img src="http://mg.dawnaurora.top/pics/ico.jpg" alt="icon" width="150" height="150" class="fade-in">
+            <img src="./pics/ico.jpg" alt="icon" width="150" height="150" class="fade-in">
             <h1 class="fade-in">智能会议记录</h1>
         </div>
         <form action="/receive.php" method="post" enctype="multipart/form-data" class="upload-form">
@@ -146,26 +156,28 @@
         <div class="center">
             <button onclick="handleClick()" class="custom-button fade-in">生成字幕以及总结</button>
         </div>
-        <textarea id="subtitleOutput" rows="20" cols="50" readonly class="fade-in"></textarea>
+        <textarea id="MyText" rows="20" cols="50" readonly class="fade-in"></textarea>
     </div>
 
     <script>
 
+        const TextOutput = document.getElementById('MyText');
+
         function handleClick() {
-            /*      var xhr = new XMLHttpRequest();
-                  xhr.open('GET',url,true);
-                  xhr.onreadystatechange = function() {
-                      if (xhr.readyState === 4 && xhr.status === 200) {
-                          var response = xhr.responseText;
-                          console.log(response);*/
-            $.ajax({
-                url: 'path/to/text/file.txt',
-                dataType: 'text',
-                success: function (data) {
-                    $('#subtitleOutput').val(data);
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET","./test/file.txt");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    TextOutput.value = xhr.responseText;
                 }
-            });
-        }
+            };
+            xhr.send();
+
+
+        TextOutput.addEventListener('input', function () {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+        })
 
         var fadeElements = document.getElementsByClassName('fade-in');
         for (var i = 0; i < fadeElements.length; i++) {
