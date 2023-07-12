@@ -31,7 +31,7 @@ iconpath = current_directory + "\\background.ico"
 window = tk.Tk()
 icon = ImageTk.PhotoImage(file=jpgpath)
 window.iconphoto(True, icon)
-window.iconbitmap(iconpath) 
+window.iconbitmap(iconpath)
 window.geometry("800x600")
 
 window.title("MemoGenius")
@@ -40,93 +40,13 @@ window.title("MemoGenius")
 # 创建Canvas组件
 canvas = tk.Canvas(window, width=800, height=600)
 canvas.pack()
-
-# 生成星空背景图像
-image = Image.new("RGB", (800, 600), "black")
-draw = ImageDraw.Draw(image)
-
-stars = []
-
-for _ in range(500):
-    x = random.randint(0, 800)
-    y = random.randint(0, 600)
-    size = random.randint(1, 3)
-    r = random.randint(0, 255)
-    g = random.randint(0, 255)
-    b = random.randint(0, 255)
-    star = {"x": x, "y": y, "size": size, "color": (r, g, b)}
-    stars.append(star)
-    draw.rectangle([x, y, x+size, y+size], fill=(r, g, b))
-
-background_stars = ImageTk.PhotoImage(image)
+# 加载自定义背景图片
+background_2 = current_directory + "\\back_ground2.jpg"
+background_image = Image.open(background_2)
+background_resized = background_image.resize((800, 600))
+background_stars = ImageTk.PhotoImage(background_resized)
 canvas.create_image(0, 0, anchor="nw", image=background_stars)
 
-# 修改"会议"的字体样式和颜色
-art_font = ("Helvetica", 48, "bold")
-art_text = tk.Label(window, text="会", font=art_font, fg="white", bg="black")
-art_text.place(relx=0.45, rely=0.4, anchor="center")
-
-yi_font = ("Helvetica", 48, "bold")
-yi_text = tk.Label(window, text="忆", font=yi_font, fg="white", bg="black")
-yi_text.place(relx=0.55, rely=0.4, anchor="center")
-
-def change_text_color():
-    r = random.randint(200, 255)
-    g = random.randint(200, 255)
-    b = random.randint(200, 255)
-    art_text.configure(fg=f'#{r:02x}{g:02x}{b:02x}')
-    yi_text.configure(fg=f'#{r:02x}{g:02x}{b:02x}')
-    window.after(1000, change_text_color)
-
-# 初始时立即调用一次，之后每隔1秒改变一次文本颜色
-change_text_color() 
-
-def animate_stars():
-    for star in stars:
-        x = star["x"]
-        y = star["y"]
-        size = star["size"]
-        r, g, b = star["color"]
-
-        # 随机改变星星的颜色
-        if random.random() < 0.05:
-            r = random.randint(0, 255)
-            g = random.randint(0, 255)
-            b = random.randint(0, 255)
-            star["color"] = (r, g, b)
-        
-        # 随机改变星星的位置
-        if random.random() < 0.02:
-            x += random.randint(-2, 2)
-            y += random.randint(-2, 2)
-            star["x"] = x
-            star["y"] = y
-        
-        # 限制星星的位置在窗口范围内
-        x = max(0, min(x, 800-size))
-        y = max(0, min(y, 600-size))
-
-        # 绘制星星
-        draw.rectangle([x, y, x+size, y+size], fill=(r, g, b))
-    
-    background_stars = ImageTk.PhotoImage(image)
-    canvas.create_image(0, 0, anchor="nw", image=background_stars)
-    
-    window.after(100, animate_stars)
-
-# 初始时立即调用一次，之后每隔0.1秒更新一次星星的位置和颜色
-animate_stars()
-
-def change_background_color():
-    r = random.randint(0, 255)
-    g = random.randint(0, 255)
-    b = random.randint(0, 255)
-    
-    canvas.configure(bg=f'#{r:02x}{g:02x}{b:02x}')
-    window.after(5000, change_background_color)
-
-# 初始时立即调用一次，之后每隔5秒改变一次背景颜色
-change_background_color() 
 
 # 创建输入框、按钮，并绑定点击事件
 input_entry = tk.Entry(window, font=("Helvetica", 18), width=30)
