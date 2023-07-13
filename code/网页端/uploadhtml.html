@@ -53,8 +53,8 @@
             font-family: 'ZCOOL KuaiLe', sans-serif;
         }
 
-        h3{
-            font-size:5px;
+        h3 {
+            font-size: 5px;
         }
 
         form {
@@ -70,7 +70,7 @@
             background-color: #FDFFFE;
             overflow-y: auto;
             resize: none;
-            height: auto;
+            height: 58%;
         }
 
         .fade-in {
@@ -162,26 +162,25 @@
     </div>
 
     <script>
-        const TextOutput = document.getElementById('MyText');
-
-        var xhr = new XMLHttpRequest();
-
         function handleClick() {
-            TextOutput = "";
+            var form = document.querySelector(".upload-form");
+            var xhr = new XMLHttpRequest();
+            form.reset();
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     TextOutput.value = xhr.responseText;
+                    ShowText(TextOutput.value);
                 }
             };
             //TextOutput.style.height = "auto";
             //TextOutput.style.height = TextOutput.scrollHeight + "px";
-/*            ShowText(TextOutput.value);*/
+            /*            ShowText(TextOutput.value);*/
             xhr.open("GET", "./test/result.txt");
             xhr.send();
-            ShowText(TextOutput.value);
         };
 
         function ShowText(text) {
+            var TextOutput = document.getElementById('MyText');
             var index = 0;
             var timer = setInterval(function () {
                 textarea.value += text.charAt(index);
