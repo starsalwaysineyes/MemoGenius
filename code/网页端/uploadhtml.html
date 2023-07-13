@@ -39,7 +39,7 @@
         }
 
             .container img {
-                margin-right: 52vh; /* 可根据需要调整图像与标题之间的间距 */
+                margin-right: 51vh; /* 可根据需要调整图像与标题之间的间距 */
             }
 
         h1 {
@@ -143,7 +143,7 @@
             <img src="./pics/ico.jpg" alt="icon" width="150" height="150" class="fade-in">
             <h1 class="fade-in">智能会议记录</h1>
         </div>
-        <form action="/receive.php" method="post" enctype="multipart/form-data" class="upload-form">
+        <form id="myform" action="/receive.php" method="post" enctype="multipart/form-data" class="upload-form">
             <input type="hidden" name="key" placeholder="参数1">
             <input type="hidden" name="key2" placeholder="参数2">
             <input type="file" name="file" class="fade-in">
@@ -158,14 +158,16 @@
         <div class="center">
             <button onclick="handleClick()" class="custom-button fade-in">生成字幕以及总结</button>
         </div>
-        <textarea id="MyText" rows="20" cols="50" class="fade-in"></textarea>
+        <textarea id="MyText" rows="20" cols="30" class="fade-in"></textarea>
     </div>
 
     <script>
         function handleClick() {
-            var form = document.querySelector(".upload-form");
-            var xhr = new XMLHttpRequest();
+            var TextOutput = document.getElementById('MyText');
+            var form = document.getElementById("myform");
+            TextOutput = "";
             form.reset();
+            var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     TextOutput.value = xhr.responseText;
@@ -180,12 +182,11 @@
         };
 
         function ShowText(text) {
-            var TextOutput = document.getElementById('MyText');
             var index = 0;
             var timer = setInterval(function () {
-                textarea.value += text.charAt(index);
-                textarea.style.height = "auto";
-                textarea.style.height = textarea.scrollHeight + "px";
+                TextOutput.value += text.charAt(index);
+                TextOutput.style.height = "58%";
+                TextOutput.style.height = textarea.scrollHeight + "px";
                 index++;
                 if (index >= text.length) {
                     clearInterval(timer);
