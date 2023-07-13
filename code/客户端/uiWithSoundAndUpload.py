@@ -5,7 +5,7 @@ from imports import *
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("myappid")
 
 #超级无敌屌的全局变量之，用数组甚至都不用global
-lst=[0]
+lst=[0,""]
 
 #主程序定义
 def main():
@@ -13,12 +13,21 @@ def main():
     def record_button_func():
         #标记状态为1，表面要开始录制
         lst[0]=1
+        button1.config(text="结束录制",bg='red', command=stopRecord_button_func)  # 将结束录制按钮改为上传按钮
         #定义线程函数，让从main线程中单开一条线程去录音
         def start_recording():
             
             print("点击了录制按钮")
             # 点击了开始录制按钮，开始录制音频
-            output_file = "output.mp3"  # 设置输出文件路径
+            
+            #设置以文件为参考路径
+            current_path = os.path.abspath(__file__)
+            #拿到文件的目录路径
+            current_directory = os.path.dirname(current_path)
+            #将jpg图片路径设为与文件同级目录的background.jpg图片
+            mp3path = current_directory + "\\output.mp3"
+            
+            output_file = mp3path  # 设置输出文件路径
             record_microphone_audio(output_file)
 
         #创建录音线程
@@ -37,29 +46,65 @@ def main():
         lst[0]=0
         
         #将结束录音按钮隐藏，替换为上传按钮
-        record_button.config(state=tk.NORMAL)  # 将录制按钮重新设为可用
-        stop_record_button.config(text="上传", command=upload_button_clicked)  # 将结束录制按钮改为上传按钮
-        preview_button.config(state=tk.DISABLED)  # 禁用预览按钮
+        button1.config(text="开始录制",bg='lightblue', command=record_button_func)  # 将录制按钮重新设为可用
+        #button2.config(text="上传", command=upload_button_clicked)  # 将结束录制按钮改为上传按钮
+        #preview_button.config(state=tk.DISABLED)  # 禁用预览按钮
     
     #上传按钮功能
-    def upload_button_clicked():
-        print("先别急着上传，那边还没对接好")
-        if(1):
-            #这样写为了让下边的代码也高亮
-            #不然下边会被暗色
-            return
-        setAllowed = {".wav", ".mp3", ".mp4"}
+    def load():
+        button2.config(state=tk.DISABLED)
+        def UpFile(Url, params):
+            '''
+            用于POST上传文件以及提交参数
+            @ Url 上传接口
+            @ FilePath 文件路径
+            @ data 提交参数 {'key':'value', 'key2':'value2'}
+            '''
+            result = requests.post(Url, data=params)
+            return result
+        # 上传接口
+        url = 'http://mg.dawnaurora.top/getresult.php'
+        # 需提交的参数
+        data = {'key': '123456', 'key2': 'hello'}
         
-        # 获取文本框中的内容并赋值给变量
-        user_input = input_entry.get()
-        print("用户输入的内容：", user_input)
-        if user_input[-4:] not in setAllowed:
-            print("请输入正确的地址！")
-        else:
-            try:
-                func_phpUpload.up(user_input)
-            except:
-                print("应用端上传文件失败")
+
+        r = UpFile(url, data)
+        # 打印返回的值
+        print(r.text.replace('<br />',''))
+        button2.config(state=tk.NORMAL)
+        lst[1]=r.text.replace('<br />','')
+        
+        
+
+    
+    def upload_button_clicked():
+        def upup():
+            setAllowed = {".wav", ".mp3", ".mp4"}
+            
+            # 获取文本框中的内容并赋值给变量
+            user_input = input_entry.get()
+            if(user_input==''):
+                #设置以文件为参考路径
+                current_path = os.path.abspath(__file__)
+                #拿到文件的目录路径
+                current_directory = os.path.dirname(current_path)
+                #将jpg图片路径设为与文件同级目录的background.jpg图片
+                user_input = current_directory + "\\output.mp3"
+            print("用户输入的内容：", user_input)
+            if user_input[-4:] not in setAllowed:
+                print("请输入正确的地址！")
+            else:
+                try:
+                    func_phpUpload.up(user_input)
+                    button2.config(text="获取总结",bg='lightblue', command=load)
+                    button2.config(state=tk.NORMAL)
+                except:
+                    print("应用端上传文件失败")
+                    
+        upthread=threading.Thread(target=upup)
+        upthread.start()
+        button2.config(text="正在总结",bg='lightblue', command=record_button_func)
+        button2.config(state=tk.DISABLED)
 
     #预览按钮功能
     def preview_button_clicked():
@@ -105,15 +150,15 @@ def main():
     input_entry = tk.Entry(window, font=("Helvetica", 18), width=30)
     input_entry.place(relx=0.5, rely=0.7, anchor="center")  # 调整文本框的位置
 
-    record_button = tk.Button(window, text="录制", font=("Helvetica", 18), command=record_button_func, bg="lightblue",
+    button1 = tk.Button(window, text="开始录制", font=("Helvetica", 18), command=record_button_func, bg="lightblue",
                             fg="white")
-    stop_record_button = tk.Button(window, text="结束录制", font=("Helvetica", 18), command=stopRecord_button_func,
+    button2 = tk.Button(window, text="开始上传", font=("Helvetica", 18), command=upload_button_clicked,
                                 bg="red", fg="white")
     preview_button = tk.Button(window, text="预览", font=("Helvetica", 18), command=preview_button_clicked, bg="orange",
                             fg="white")
 
-    record_button.place(relx=0.3, rely=0.8, anchor="center")
-    stop_record_button.place(relx=0.5, rely=0.8, anchor="center")
+    button1.place(relx=0.32, rely=0.8, anchor="center")
+    button2.place(relx=0.52, rely=0.8, anchor="center")
     preview_button.place(relx=0.7, rely=0.8, anchor="center")
 
     # 进入主循环
