@@ -170,13 +170,9 @@
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    TextOutput.value = xhr.responseText;
-                    ShowText(TextOutput.value);
+                    ShowText(xhr.responseText);
                 }
             };
-            //TextOutput.style.height = "auto";
-            //TextOutput.style.height = TextOutput.scrollHeight + "px";
-            /*            ShowText(TextOutput.value);*/
             xhr.open("GET", "./test/result.txt");
             xhr.send();
         };
