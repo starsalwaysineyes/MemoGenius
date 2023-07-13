@@ -170,9 +170,12 @@
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    ShowText(xhr.responseText);
+                    TextOutput.value = xhr.responseText;
+                    /*ShowText(xhr.responseText);*/
                 }
             };
+            TextOutput.style.height = "58%";
+            TextOutput.style.height = textarea.scrollHeight + "px";
             xhr.open("GET", "./test/result.txt");
             xhr.send();
         };
