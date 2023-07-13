@@ -27,7 +27,7 @@
         }
 
         .lower-half {
-            height: 66vh; /* 设置下半页的高度为视口高度的 65% */
+            height: 67vh; /* 设置下半页的高度为视口高度的 65% */
             background: linear-gradient(to bottom, #FDFFFE, #B2DFDB);
             border: none;
             border-radius: 10px;
@@ -38,12 +38,8 @@
             align-items: center;
         }
 
-            .container img {
-                margin-right: 51vh; /* 可根据需要调整图像与标题之间的间距 */
-            }
-
         h1 {
-            font-size: 50px;
+            font-size: 60px;
             font-family: 'ZCOOL KuaiLe', sans-serif;
         }
 
@@ -74,7 +70,15 @@
         }
 
         .fade-in {
-            animation: fade-in 1s ease-in;
+            animation: fade-in 2s ease-in;
+        }
+
+        .fade-in-h1{
+            animation: fade-in 3s ease-in;
+            position:absolute;
+            top:8%;
+            left:50%;
+            transform:translate(-50%,-50%);
         }
 
         .center {
@@ -108,7 +112,7 @@
 
         .custom-button {
             border: 2px solid #4caf50;
-            padding: 10px 20px;
+            padding: 20px 20px;
             background-color: #f9f9f9;
             color: #4caf50;
             border-radius: 5px;
@@ -141,7 +145,7 @@
     <div class="upper-half">
         <div class="container">
             <img src="./pics/ico.jpg" alt="icon" width="150" height="150" class="fade-in">
-            <h1 class="fade-in">智能会议记录</h1>
+            <h1 class="fade-in-h1">MemoGenius 会议</h1>
         </div>
         <form id="myform" action="/receive.php" method="post" enctype="multipart/form-data" class="upload-form">
             <input type="hidden" name="key" placeholder="参数1">
@@ -153,12 +157,12 @@
 
     <div class="lower-half">
         <br>
-        <h2 class="fade-in">总结</h2>
+        <h2 class="fade-in">智能会议总结</h2>
 
         <div class="center">
-            <button onclick="handleClick()" class="custom-button fade-in">生成字幕以及总结</button>
+            <button onclick="handleClick()" class="custom-button fade-in">生成总结</button>
         </div>
-        <textarea id="MyText" rows="20" cols="30" class="fade-in"></textarea>
+        <textarea id="MyText" rows="15" cols="25" class="fade-in"></textarea>
     </div>
 
     <script>
@@ -171,12 +175,14 @@
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         ShowText(xhr.responseText);
+                        alert("总结完成");
                     }
                 };
                 TextOutput.style.height = "58%";
                 TextOutput.style.height = TextOutput.scrollHeight + "px";
                 xhr.open("GET", "./test/result.txt");
                 xhr.send();
+
             };
 
         function ShowText(text) {
